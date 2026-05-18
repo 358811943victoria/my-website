@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PixelVault — Collectibles & More</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- =============================================
+       CSS VARIABLES & RESET
+  ============================================= -->
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:           #0b0917;
+      --surface:      #130f26;
+      --card:         #1a1530;
+      --card-hover:   #201b3a;
+
+      --purple:       #8b5cf6;
+      --purple-light: #a78bfa;
+      --purple-dim:   rgba(139, 92, 246, 0.18);
+
+      --pink:         #ec4899;
+      --pink-dim:     rgba(236, 72, 153, 0.18);
+
+      --yellow:       #facc15;
+      --yellow-dim:   rgba(250, 204, 21, 0.18);
+
+      --cyan:         #22d3ee;
+      --cyan-dim:     rgba(34, 211, 238, 0.18);
+
+      --green:        #4ade80;
+      --green-dim:    rgba(74, 222, 128, 0.18);
+
+      --orange:       #fb923c;
+      --orange-dim:   rgba(251, 146, 60, 0.18);
+
+      --text:         #f0eeff;
+      --muted:        #9896b4;
+      --border:       rgba(139, 92, 246, 0.22);
+      --border-bright: rgba(139, 92, 246, 0.55);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+  </style>
+
+  <!-- =============================================
+       NAVIGATION
+  ============================================= -->
+  <style>
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(11, 9, 23, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 68px;
+    }
+
+    .logo {
+      font-family: 'Bangers', cursive;
+      font-size: 2rem;
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: var(--yellow);
+      -webkit-text-fill-color: var(--yellow);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--purple-light); }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: #fff;
+      padding: 9px 22px;
+      border-radius: 100px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: opacity 0.2s, transform 0.15s;
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.35);
+    }
+
+    .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+    }
+  </style>
+
+  <!-- =============================================
+       HERO SECTION
+  ============================================= -->
+  <style>
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      overflow: hidden;
+    }
+
+    /* Dimmed background photo */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1608307479074-c9f52e4b1e5e?w=1600&q=80')
+        center / cover no-repeat;
+      filter: brightness(0.12) saturate(1.8);
+    }
+
+    /* Floating color orbs for extra vibrancy */
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .hero-orb-1 {
+      width: 500px; height: 500px;
+      top: 10%; left: -10%;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent 70%);
+    }
+
+    .hero-orb-2 {
+      width: 400px; height: 400px;
+      top: 20%; right: -8%;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.25), transparent 70%);
+      animation-delay: 2s;
+    }
+
+    .hero-orb-3 {
+      width: 300px; height: 300px;
+      bottom: 5%; left: 30%;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.2), transparent 70%);
+      animation-delay: 4s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-20px); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(139, 92, 246, 0.5);
+      color: var(--purple-light);
+      padding: 6px 20px;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1.6rem;
+      animation: fadeUp 0.6s ease 0.05s both;
+    }
+
+    .hero h1 {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(3.2rem, 10vw, 7.5rem);
+      line-height: 0.95;
+      letter-spacing: 4px;
+      color: #fff;
+      margin-bottom: 1.2rem;
+      animation: fadeUp 0.6s ease 0.15s both;
+    }
+
+    .hero h1 .grad-purple {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero h1 .grad-yellow {
+      background: linear-gradient(135deg, var(--yellow), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.15rem;
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.75;
+      animation: fadeUp 0.6s ease 0.25s both;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s ease 0.35s both;
+    }
+
+    /* Reusable button styles */
+    .btn-glow {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: #fff;
+      padding: 14px 34px;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(139, 92, 246, 0.45);
+    }
+
+    .btn-glow:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 55px rgba(139, 92, 246, 0.65);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 14px 34px;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 1rem;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      transform: translateY(-3px);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+
+  <!-- =============================================
+       SCROLLING TICKER BANNER
+  ============================================= -->
+  <style>
+    .ticker {
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 13px 0;
+      /* Animated rainbow gradient */
+      background: linear-gradient(90deg, var(--purple), var(--pink), var(--cyan), var(--purple));
+      background-size: 300% 100%;
+      animation: tickerBg 5s linear infinite;
+    }
+
+    @keyframes tickerBg {
+      0%   { background-position: 0% 0%; }
+      100% { background-position: 300% 0%; }
+    }
+
+    .ticker-track {
+      display: inline-block;
+      animation: tickerScroll 28s linear infinite;
+      font-weight: 900;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    @keyframes tickerScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .ticker-item {
+      display: inline-block;
+      margin: 0 2.5rem;
+      color: #fff;
+    }
+
+    .ticker-star { color: var(--yellow); margin-right: 0.5rem; }
+  </style>
+
+  <!-- =============================================
+       SHARED SECTION UTILITIES
+  ============================================= -->
+  <style>
+    .section { padding: 5rem 2rem; }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      letter-spacing: 2px;
+      color: #fff;
+      margin-bottom: 0.8rem;
+      line-height: 1.05;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 500px;
+      line-height: 1.7;
+    }
+
+    /* Colored keyword highlights in headings */
+    .accent-pink   { color: var(--pink); }
+    .accent-cyan   { color: var(--cyan); }
+    .accent-yellow { color: var(--yellow); }
+    .accent-green  { color: var(--green); }
+  </style>
+
+  <!-- =============================================
+       CATEGORY PILL TAGS
+  ============================================= -->
+  <style>
+    .tag {
+      display: inline-block;
+      padding: 4px 13px;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    .tag-purple { background: var(--purple-dim);  color: var(--purple-light); border: 1px solid rgba(139,92,246,0.45); }
+    .tag-pink   { background: var(--pink-dim);    color: #f9a8d4;             border: 1px solid rgba(236,72,153,0.45); }
+    .tag-yellow { background: var(--yellow-dim);  color: var(--yellow);       border: 1px solid rgba(250,204,21,0.4);  }
+    .tag-cyan   { background: var(--cyan-dim);    color: var(--cyan);         border: 1px solid rgba(34,211,238,0.4);  }
+    .tag-green  { background: var(--green-dim);   color: var(--green);        border: 1px solid rgba(74,222,128,0.4);  }
+    .tag-orange { background: var(--orange-dim);  color: var(--orange);       border: 1px solid rgba(251,146,60,0.4);  }
+  </style>
+
+  <!-- =============================================
+       FEATURED ROW  (one big card + two stacked)
+  ============================================= -->
+  <style>
+    .featured-row {
+      max-width: 1200px;
+      margin: 2.5rem auto 0;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 700px) {
+      .featured-row { grid-template-columns: 1fr; }
+    }
+
+    /* Big card */
+    .feat-big {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      aspect-ratio: 16 / 9;
+    }
+
+    .feat-big img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .feat-big-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(11, 9, 23, 0.92) 30%, transparent 80%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2.5rem;
+    }
+
+    .feat-big-overlay h2 {
+      font-family: 'Bangers', cursive;
+      font-size: 2.8rem;
+      letter-spacing: 2px;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 0.6rem;
+    }
+
+    .feat-big-overlay p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      max-width: 260px;
+      margin-bottom: 1.4rem;
+      line-height: 1.6;
+    }
+
+    .feat-link {
+      display: inline-block;
+      background: var(--yellow);
+      color: #0b0917;
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-decoration: none;
+      width: fit-content;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feat-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(250, 204, 21, 0.45);
+    }
+
+    /* Stacked small cards */
+    .feat-stack { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .feat-small {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      flex: 1;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .feat-small:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(139, 92, 246, 0.28);
+    }
+
+    .feat-small img {
+      width: 100%;
+      height: 100%;
+      min-height: 160px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s;
+    }
+
+    .feat-small:hover img { transform: scale(1.06); }
+
+    .feat-small-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(11, 9, 23, 0.95) 0%, transparent 60%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.2rem;
+    }
+
+    .feat-small-overlay h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+
+    .feat-small-overlay span { color: var(--muted); font-size: 0.8rem; }
+  </style>
+
+  <!-- =============================================
+       PRODUCT CARDS GRID
+  ============================================= -->
+  <style>
+    .products-grid {
+      max-width: 1200px;
+      margin: 3rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.28s, box-shadow 0.28s, border-color 0.28s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      border-color: var(--border-bright);
+    }
+
+    /* Per-card glow colors on hover */
+    .product-card.glow-purple:hover { box-shadow: 0 20px 55px rgba(139, 92,  246, 0.35); }
+    .product-card.glow-pink:hover   { box-shadow: 0 20px 55px rgba(236, 72,  153, 0.35); }
+    .product-card.glow-yellow:hover { box-shadow: 0 20px 55px rgba(250, 204,  21, 0.35); }
+    .product-card.glow-cyan:hover   { box-shadow: 0 20px 55px rgba(34,  211, 238, 0.35); }
+    .product-card.glow-green:hover  { box-shadow: 0 20px 55px rgba(74,  222, 128, 0.35); }
+    .product-card.glow-orange:hover { box-shadow: 0 20px 55px rgba(251, 146,  60, 0.35); }
+
+    /* Card photo */
+    .product-card .card-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s;
+    }
+
+    .product-card:hover .card-img { transform: scale(1.07); }
+
+    /* "View Details" hint that fades in on hover */
+    .card-view-hint {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(11, 9, 23, 0.75);
+      backdrop-filter: blur(6px);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+    }
+
+    .product-card:hover .card-view-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Text area below image */
+    .card-body { padding: 1.2rem 1.3rem 1.4rem; }
+
+    .card-body h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 1.35rem;
+      letter-spacing: 1px;
+      color: #fff;
+      margin: 8px 0 4px;
+    }
+
+    .card-body p {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+  </style>
+
+  <!-- =============================================
+       MODAL POPUP
+  ============================================= -->
+  <style>
+    /* Full-screen dark backdrop */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Modal box — springs in with overshoot */
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border-bright);
+      border-radius: 28px;
+      max-width: 620px;
+      width: 100%;
+      overflow: hidden;
+      transform: scale(0.88) translateY(24px);
+      transition: transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-backdrop.open .modal {
+      transform: scale(1) translateY(0);
+    }
+
+    /* Hero image at top of modal */
+    .modal-img-wrap { position: relative; }
+
+    .modal-img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Gradient fading image into background at bottom */
+    .modal-img-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to top, var(--surface), transparent);
+    }
+
+    /* × close button */
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      z-index: 10;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(11, 9, 23, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+      line-height: 1;
+    }
+
+    .modal-close:hover { background: var(--pink); transform: scale(1.1) rotate(90deg); }
+
+    /* Text content area */
+    .modal-body { padding: 1.6rem 2rem 2.2rem; }
+
+    .modal-body h2 {
+      font-family: 'Bangers', cursive;
+      font-size: 2.3rem;
+      letter-spacing: 2px;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-body .modal-sub {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 1.4rem;
+      line-height: 1.75;
+    }
+
+    /* Brand / feature chips */
+    .modal-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 1.6rem;
+    }
+
+    .chip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 5px 13px;
+      border-radius: 100px;
+    }
+
+    /* Horizontal rule */
+    .modal-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.4rem 0;
+    }
+
+    /* Emoji + text info rows */
+    .modal-info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 0.9rem;
+    }
+
+    .modal-info-icon { font-size: 1.2rem; width: 28px; flex-shrink: 0; text-align: center; }
+
+    .modal-info-text { font-size: 0.88rem; color: var(--muted); }
+    .modal-info-text strong { color: var(--text); }
+
+    /* CTA button inside modal */
+    .modal-cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 100px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      text-decoration: none;
+      margin-top: 1.2rem;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
+    }
+
+    .modal-cta-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+  </style>
+
+  <!-- =============================================
+       ABOUT SECTION
+  ============================================= -->
+  <style>
+    .about-section {
+      background: var(--surface);
+      padding: 5rem 2rem;
+    }
+
+    .about-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4.5rem;
+      align-items: center;
+    }
+
+    @media (max-width: 750px) {
+      .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    .about-img-wrap {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+    }
+
+    .about-img-wrap img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .about-badge {
+      position: absolute;
+      bottom: 1.2rem;
+      left: 1.2rem;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: #fff;
+      padding: 9px 20px;
+      border-radius: 100px;
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+
+    .about-text .section-title { margin-bottom: 1rem; }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 0.97rem;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-num {
+      font-family: 'Bangers', cursive;
+      font-size: 2.6rem;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, var(--cyan), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-lab {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+  </style>
+
+  <!-- =============================================
+       LOCATION SECTION
+  ============================================= -->
+  <style>
+    .location-section { padding: 5rem 2rem; }
+
+    .loc-inner {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    @media (max-width: 650px) {
+      .loc-inner { grid-template-columns: 1fr; }
+    }
+
+    .loc-map {
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+      height: 340px;
+      background: var(--card);
+    }
+
+    .loc-map img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.35;
+      position: absolute;
+      inset: 0;
+    }
+
+    .loc-map-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      text-align: center;
+    }
+
+    .loc-pin-emoji { font-size: 3.2rem; }
+
+    .loc-map-label { color: #fff; font-weight: 800; font-size: 1.1rem; }
+
+    .loc-map-sub { color: var(--muted); font-size: 0.82rem; }
+
+    .map-btn {
+      display: inline-block;
+      margin-top: 0.6rem;
+      background: var(--purple);
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-weight: 800;
+      font-size: 0.82rem;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .map-btn:hover { background: var(--pink); transform: translateY(-2px); }
+
+    .loc-details { padding-top: 0.5rem; }
+
+    .detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding-bottom: 1.4rem;
+      margin-bottom: 1.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .detail-item:last-child { border-bottom: none; margin-bottom: 0; }
+
+    .d-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+      background: var(--purple-dim);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .d-label {
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 4px;
+    }
+
+    .d-val { font-size: 0.93rem; font-weight: 700; color: var(--text); }
+
+    .d-val small {
+      display: block;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .hours-wrap { margin-top: 5px; }
+
+    .hour-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.84rem;
+      padding: 3px 0;
+    }
+
+    .hour-day  { color: var(--muted); font-weight: 600; }
+    .hour-time { color: var(--text);  font-weight: 700; }
+  </style>
+
+  <!-- =============================================
+       CONTACT / CTA SECTION
+  ============================================= -->
+  <style>
+    .cta-section {
+      background: var(--surface);
+      padding: 5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-glow-1 {
+      position: absolute;
+      top: 50%; left: 20%;
+      transform: translate(-50%, -50%);
+      width: 400px; height: 250px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(139, 92, 246, 0.2), transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-glow-2 {
+      position: absolute;
+      top: 50%; right: -5%;
+      transform: translateY(-50%);
+      width: 350px; height: 250px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(236, 72, 153, 0.15), transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-section .section-title { margin-bottom: 0.8rem; }
+
+    .cta-section > p {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 2.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-cards {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.6rem 2rem;
+      min-width: 175px;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    }
+
+    .cta-card:hover {
+      border-color: var(--purple-light);
+      background: var(--card-hover);
+      transform: translateY(-4px);
+    }
+
+    .cta-card .c-em { font-size: 1.7rem; display: block; margin-bottom: 0.6rem; }
+
+    .cta-card .c-lab {
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 4px;
+    }
+
+    .cta-card .c-val { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+  </style>
+
+  <!-- =============================================
+       FOOTER
+  ============================================= -->
+  <style>
+    footer {
+      background: #060410;
+      padding: 2.2rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.83rem;
+    }
+
+    .footer-logo {
+      font-family: 'Bangers', cursive;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- =============================================
+       MODAL  (single instance — filled by JS)
+  ============================================= -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true">
+    <div class="modal" id="modalBox">
+
+      <button class="modal-close" id="modalClose" aria-label="Close modal">✕</button>
+
+      <div class="modal-img-wrap">
+        <img class="modal-img" id="modalImg" src="" alt="" />
+      </div>
+
+      <div class="modal-body">
+        <div id="modalTag"></div>
+        <h2 id="modalTitle"></h2>
+        <p class="modal-sub" id="modalDesc"></p>
+        <div class="modal-chips" id="modalChips"></div>
+        <hr class="modal-divider" />
+        <div id="modalInfo"></div>
+        <a href="#location" class="modal-cta-btn" id="modalCtaBtn">
+          Come Check It Out In Store →
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============================================
+       NAVIGATION
+  ============================================= -->
+  <nav>
+    <a class="logo" href="#">Pixel<span>Vault</span></a>
+
+    <ul class="nav-links">
+      <li><a href="#featured">New In</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#location">Location</a></li>
+    </ul>
+
+    <a class="nav-cta" href="#location">Visit Us 📍</a>
+  </nav>
+
+  <!-- =============================================
+       HERO
+  ============================================= -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">🎮 Dubai's Coolest Collectibles Store</div>
+
+      <h1>
+        Your <span class="grad-purple">Ultimate</span><br>
+        <span class="grad-yellow">Geek HQ</span>
+      </h1>
+
+      <p>
+        Action figures · Anime statues · Pokémon TCG ·
+        Funko Pops · Video games &amp; way more.
+      </p>
+
+      <div class="hero-btns">
+        <a href="#products" class="btn-glow">Browse the Store</a>
+        <a href="#location" class="btn-outline">Find Us 📍</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       TICKER BANNER
+  ============================================= -->
+  <div class="ticker" aria-hidden="true">
+    <span class="ticker-track">
+      <!-- duplicated so the loop is seamless -->
+      <span class="ticker-item"><span class="ticker-star">★</span>Action Figures</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Anime Statues</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Pokémon TCG</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Funko Pops</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Video Games</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Manga &amp; Comics</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Gaming Gear</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Limited Editions</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Board Games</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Action Figures</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Anime Statues</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Pokémon TCG</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Funko Pops</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Video Games</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Manga &amp; Comics</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Gaming Gear</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Limited Editions</span>
+      <span class="ticker-item"><span class="ticker-star">★</span>Board Games</span>
+    </span>
+  </div>
+
+  <!-- =============================================
+       FEATURED SECTION
+  ============================================= -->
+  <section class="section" id="featured">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div class="section-label">🔥 Hot Right Now</div>
+      <h2 class="section-title">
+        What's <span class="accent-pink">Trending</span> In Store
+      </h2>
+    </div>
+
+    <div class="featured-row">
+
+      <!-- Large feature card — anime figures -->
+      <div class="feat-big">
+        <img
+          src="https://images.unsplash.com/photo-1637804074872-c29b4c43e9c8?w=900&q=80"
+          alt="Anime collectible figures on a shelf"
+          loading="lazy"
+        />
+        <div class="feat-big-overlay">
+          <div class="section-label">Just Arrived</div>
+          <h2>Anime Statues<br>&amp; Figures</h2>
+          <p>
+            Premium pieces from Dragon Ball, One Piece,
+            Demon Slayer &amp; Jujutsu Kaisen.
+          </p>
+          <a href="#products" class="feat-link">See All Figures ↓</a>
+        </div>
+      </div>
+
+      <!-- Two clickable small cards -->
+      <div class="feat-stack">
+
+        <div class="feat-small" onclick="openModal('pokemon')">
+          <img
+            src="https://images.unsplash.com/photo-1591578499743-bc46e45ddf89?w=600&q=80"
+            alt="Pokemon TCG booster packs"
+            loading="lazy"
+          />
+          <div class="feat-small-overlay">
+            <div class="tag tag-yellow" style="margin-bottom: 6px;">Trading Cards</div>
+            <h3>Pokémon TCG</h3>
+            <span>Tap to learn more →</span>
+          </div>
+        </div>
+
+        <div class="feat-small" onclick="openModal('gaming')">
+          <img
+            src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=600&q=80"
+            alt="Video game controllers"
+            loading="lazy"
+          />
+          <div class="feat-small-overlay">
+            <div class="tag tag-cyan" style="margin-bottom: 6px;">Gaming</div>
+            <h3>Video Games</h3>
+            <span>Tap to learn more →</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       PRODUCT CARDS  (each opens a modal)
+  ============================================= -->
+  <section class="section" id="products" style="padding-top: 0;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div class="section-label">Browse Everything</div>
+      <h2 class="section-title">
+        Tap Any Card to <span class="accent-cyan">Learn More</span>
+      </h2>
+      <p class="section-sub">
+        Click any product to see what brands we carry, what's in stock, and pricing info.
+      </p>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- Action Figures -->
+      <div class="product-card glow-purple" onclick="openModal('figures')">
+        <span class="card-view-hint">View Details</span>
+        <img
+          class="card-img"
+          src="https://images.unsplash.com/photo-1608307479074-c9f52e4b1e5e?w=600&q=80"
+          alt="Action figures collection"
+          loading="lazy"
+        />
+        <div class="card-body">
+          <div class="tag tag-purple">Fan Favorites</div>
+          <h3>Action Figures</h3>
+          <p>Hot Toys, Bandai, McFarlane &amp; rare pieces</p>
+        </div>
+      </div>
+
+      <!-- Funko Pops -->
+      <div class="product-card glow-pink" onclick="openModal('funko')">
+        <span class="card-view-hint">View Details</span>
+        <img
+          class="card-img"
+          src="https://images.unsplash.com/photo-1538291323976-37dcaafccb12?w=600&q=80"
+          alt="Funko Pop vinyl figures"
+          loading="lazy"
+        />
+        <div class="card-body">
+          <div class="tag tag-pink">Collectibles</div>
+          <h3>Funko Pops</h3>
+          <p>Movies, anime, sports &amp; exclusive variants</p>
+        </div>
+      </div>
+
+      <!-- Pokemon TCG -->
+      <div class="product-card glow-yellow" onclick="openModal('pokemon')">
+        <span class="card-view-hint">View Details</span>
+        <img
+          class="card-img"
+          src="https://images.unsplash.com/photo-1591578499743-bc46e45ddf89?w=600&q=80"
+          alt="Pokemon Trading Card Game packs"
+          loading="lazy"
+        />
+        <div class="card-body">
+          <div class="tag tag-yellow">Trading Cards</div>
+          <h3>Pokémon TCG</h3>
+          <p>Booster packs, ETBs &amp; sealed product</p>
+        </div>
+      </div>
+
+      <!-- Video Games -->
+      <div class="product-card glow-cyan" onclick="openModal('gaming')">
+        <span class="card-view-hint">View Details</span>
+        <img
+          class="card-img"
+          src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=600&q=80"
+          alt="Video game controllers and consoles"
+          loading="lazy"
+        />
+        <div class="card-body">
+          <div class="tag tag-cyan">Gaming</div>
+          <h3>Video Games</h3>
+          <p>PS5, Xbox Series X, Switch &amp; accessories</p>
+        </div>
+      </div>
+
+      <!-- Manga & Comics -->
+      <div class="product-card glow-orange" onclick="openModal('manga')">
+        <span class="card-view-hint">View Details</span>
+        <img
+          class="card-img"
+          src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&q=80"
+          alt="Manga and comic books"
+          loading="lazy"
+        />
+        <div class="card-body">
+          <div class="tag tag-orange">Reading</div>
+          <h3>Manga &amp; Comics</h3>
+          <p>Latest volumes, classic series &amp; graphic novels</p>
+        </div>
+      </div>
+
+      <!-- Board & Card Games -->
+      <div class="product-card glow-green" onclick="openModal('boardgames')">
+        <span class="card-view-hint">View Details</span>
+        <img
+          class="card-img"
+          src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80"
+          alt="Board and card games"
+          loading="lazy"
+        />
+        <div class="card-body">
+          <div class="tag tag-green">Tabletop</div>
+          <h3>Board &amp; Card Games</h3>
+          <p>Magic: The Gathering, D&amp;D &amp; more</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =============================================
+       ABOUT SECTION
+  ============================================= -->
+  <section class="about-section" id="about">
+    <div class="about-inner">
+
+      <div class="about-img-wrap">
+        <img
+          src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=800&q=80"
+          alt="Store interior with shelves of collectibles"
+          loading="lazy"
+        />
+        <div class="about-badge">🏆 Dubai's #1 Geek Store</div>
+      </div>
+
+      <div class="about-text">
+        <div class="section-label">Our Story</div>
+        <h2 class="section-title">
+          Built by <span class="accent-pink">Fans</span>,<br>
+          For <span class="accent-cyan">Fans</span>
+        </h2>
+        <p>
+          PixelVault started because we were tired of not finding the good
+          stuff locally. We wanted a place where collectors, gamers, and fans
+          could come together and actually geek out.
+        </p>
+        <p>
+          Today we carry hundreds of products — from ultra-rare limited edition
+          statues to everyday gaming essentials — in a space built for anyone
+          who loves pop culture.
+        </p>
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="stat-num">500+</div>
+            <div class="stat-lab">Products In Store</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">10K+</div>
+            <div class="stat-lab">Happy Customers</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">7</div>
+            <div class="stat-lab">Days Open</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =============================================
+       LOCATION SECTION
+  ============================================= -->
+  <section class="location-section" id="location">
+    <div style="max-width: 1000px; margin: 0 auto;">
+      <div class="section-label">Find Us</div>
+      <h2 class="section-title">
+        Come Hang <span class="accent-yellow">With Us</span> 👾
+      </h2>
+    </div>
+
+    <div class="loc-inner">
+
+      <!-- Map placeholder -->
+      <div class="loc-map">
+        <img
+          src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=700&q=80"
+          alt="Dubai city aerial view"
+        />
+        <div class="loc-map-content">
+          <span class="loc-pin-emoji">📍</span>
+          <div class="loc-map-label">Dubai, UAE</div>
+          <div class="loc-map-sub">123 Geek Street, Dubai Mall Area</div>
+          <a href="https://maps.google.com" target="_blank" class="map-btn">
+            Open in Google Maps ↗
+          </a>
+        </div>
+      </div>
+
+      <!-- Address / hours / contact details -->
+      <div class="loc-details">
+
+        <div class="detail-item">
+          <div class="d-icon">📍</div>
+          <div>
+            <div class="d-label">Address</div>
+            <div class="d-val">
+              123 Geek Street, Dubai Mall Area
+              <small>Dubai, United Arab Emirates</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <div class="d-icon">🕐</div>
+          <div>
+            <div class="d-label">Store Hours</div>
+            <div class="hours-wrap">
+              <div class="hour-row">
+                <span class="hour-day">Mon – Thu</span>
+                <span class="hour-time">10 AM – 10 PM</span>
+              </div>
+              <div class="hour-row">
+                <span class="hour-day">Friday</span>
+                <span class="hour-time">2 PM – 11 PM</span>
+              </div>
+              <div class="hour-row">
+                <span class="hour-day">Sat – Sun</span>
+                <span class="hour-time">10 AM – 11 PM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <div class="d-icon">📞</div>
+          <div>
+            <div class="d-label">Phone</div>
+            <div class="d-val">+971 50 123 4567</div>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <div class="d-icon">📱</div>
+          <div>
+            <div class="d-label">Social &amp; DMs</div>
+            <div class="d-val">
+              @pixelvault.ae
+              <small>Instagram · TikTok · WhatsApp</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       CONTACT / CTA SECTION
+  ============================================= -->
+  <section class="cta-section" id="contact">
+    <div class="cta-glow-1"></div>
+    <div class="cta-glow-2"></div>
+
+    <div class="section-label" style="position: relative; z-index: 1;">
+      Get In Touch
+    </div>
+    <h2 class="section-title" style="position: relative; z-index: 1;">
+      We're Always <span class="accent-green">Here</span> 🎮
+    </h2>
+    <p>
+      Looking for something specific? Want to know if it's in stock?
+      We actually reply — hit us up!
+    </p>
+
+    <div class="cta-cards">
+      <div class="cta-card">
+        <span class="c-em">📞</span>
+        <div class="c-lab">Call Us</div>
+        <div class="c-val">+971 50 123 4567</div>
+      </div>
+      <div class="cta-card">
+        <span class="c-em">💬</span>
+        <div class="c-lab">WhatsApp</div>
+        <div class="c-val">+971 50 123 4567</div>
+      </div>
+      <div class="cta-card">
+        <span class="c-em">📸</span>
+        <div class="c-lab">Instagram</div>
+        <div class="c-val">@pixelvault.ae</div>
+      </div>
+      <div class="cta-card">
+        <span class="c-em">✉️</span>
+        <div class="c-lab">Email</div>
+        <div class="c-val">hello@pixelvault.ae</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       FOOTER
+  ============================================= -->
+  <footer>
+    <span class="footer-logo">PixelVault</span>
+    <p>© 2025 PixelVault Collectibles — Dubai, UAE. Made for the fans. 🕹️</p>
+  </footer>
+
+  <!-- =============================================
+       JAVASCRIPT
+  ============================================= -->
+  <script>
+
+    // ─────────────────────────────────────────────────
+    //  PRODUCT DATA
+    //  Each key maps to a card's onclick="openModal(key)"
+    // ─────────────────────────────────────────────────
+    const PRODUCTS = {
+
+      figures: {
+        tag:   { text: 'Fan Favorites', cls: 'tag-purple' },
+        title: 'Action Figures',
+        img:   'https://images.unsplash.com/photo-1608307479074-c9f52e4b1e5e?w=800&q=80',
+        desc:  'Premium licensed action figures from the biggest names in the hobby. From battle-damaged variants to ultra-detailed 1/6-scale masterpieces — we stock it all.',
+        chips: ['Hot Toys', 'Bandai', 'McFarlane', 'NECA', 'SH Figuarts', 'Mezco'],
+        info: [
+          { icon: '🎯', label: 'Scale options', value: '1/6, 1/12, and 1/4 scale available' },
+          { icon: '📦', label: 'Condition',     value: 'New sealed & opened display pieces'  },
+          { icon: '🔖', label: 'Price range',   value: 'AED 60 – AED 2,000+'                },
+          { icon: '🌟', label: 'Franchises',    value: 'Marvel, DC, Star Wars, Anime & more' },
+        ],
+      },
+
+      funko: {
+        tag:   { text: 'Collectibles', cls: 'tag-pink' },
+        title: 'Funko Pops',
+        img:   'https://images.unsplash.com/photo-1538291323976-37dcaafccb12?w=800&q=80',
+        desc:  'One of the largest Funko Pop selections in Dubai. Standard releases, exclusives, chase variants, super-sized jumbo figures, and hard-to-find retired editions.',
+        chips: ['Standard', 'Chase Variants', 'Exclusives', 'Jumbo 10"', 'Deluxe', 'Retro'],
+        info: [
+          { icon: '🎨', label: 'Themes',      value: 'Anime, Movies, TV, Sports & Games' },
+          { icon: '💎', label: 'Exclusives',  value: 'Con exclusives & store-only variants' },
+          { icon: '🔖', label: 'Price range', value: 'AED 45 – AED 350'                   },
+          { icon: '📦', label: 'Stock',       value: '300+ different characters in store'  },
+        ],
+      },
+
+      pokemon: {
+        tag:   { text: 'Trading Cards', cls: 'tag-yellow' },
+        title: 'Pokémon TCG',
+        img:   'https://images.unsplash.com/photo-1591578499743-bc46e45ddf89?w=800&q=80',
+        desc:  'Fresh booster packs to sealed Elite Trainer Boxes — we carry the latest Scarlet & Violet sets and keep stock on popular older expansions too.',
+        chips: ['Booster Packs', 'ETB', 'Booster Bundles', 'Tins', 'Collection Boxes', 'Promos'],
+        info: [
+          { icon: '🃏', label: 'Sets in stock', value: 'Scarlet & Violet, Crown Zenith & more'    },
+          { icon: '🔖', label: 'Price range',   value: 'AED 18 (single pack) – AED 600 (box)'    },
+          { icon: '📅', label: 'Restocks',      value: 'New releases same week as global launch'  },
+          { icon: '🌐', label: 'Languages',     value: 'English & Japanese sets available'        },
+        ],
+      },
+
+      gaming: {
+        tag:   { text: 'Gaming', cls: 'tag-cyan' },
+        title: 'Video Games',
+        img:   'https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=800&q=80',
+        desc:  'New release titles, classic favourites, and a curated selection of gaming accessories for PS5, Xbox Series X, Nintendo Switch, and PC.',
+        chips: ['PS5', 'Xbox Series X', 'Nintendo Switch', 'PC', 'Retro', 'Accessories'],
+        info: [
+          { icon: '🎮', label: 'Platforms',    value: 'PS5, Xbox, Switch & PC'            },
+          { icon: '🔌', label: 'Accessories',  value: 'Controllers, headsets, dock stands' },
+          { icon: '🔖', label: 'Price range',  value: 'AED 35 (indie) – AED 350 (new release)' },
+          { icon: '📅', label: 'New releases', value: 'Day-one stock on major titles'      },
+        ],
+      },
+
+      manga: {
+        tag:   { text: 'Reading', cls: 'tag-orange' },
+        title: 'Manga & Comics',
+        img:   'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80',
+        desc:  'A growing selection of manga volumes, graphic novels, and American comics for casual readers and serious collectors alike.',
+        chips: ['Shonen', 'Seinen', 'Shojo', 'DC Comics', 'Marvel', 'Graphic Novels'],
+        info: [
+          { icon: '📚', label: 'Titles',       value: 'One Piece, JJK, Chainsaw Man & more' },
+          { icon: '🌐', label: 'Languages',    value: 'English (some Japanese imports)'       },
+          { icon: '🔖', label: 'Price range',  value: 'AED 25 – AED 80 per volume'           },
+          { icon: '🆕', label: 'New volumes',  value: 'Restocked weekly'                     },
+        ],
+      },
+
+      boardgames: {
+        tag:   { text: 'Tabletop', cls: 'tag-green' },
+        title: 'Board & Card Games',
+        img:   'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80',
+        desc:  'From competitive card games to epic dungeon crawlers — tabletop games for all skill levels, plus D&D sourcebooks and premium dice sets.',
+        chips: ['Magic: The Gathering', 'D&D', 'Catan', 'Carcassonne', 'Dice Sets', 'Sleeves'],
+        info: [
+          { icon: '🃏', label: 'MTG',          value: 'Booster packs, Commander decks & singles' },
+          { icon: '🐉', label: 'D&D',          value: 'Core rulebooks, sourcebooks & dice sets'  },
+          { icon: '🔖', label: 'Price range',  value: 'AED 30 – AED 600'                        },
+          { icon: '👥', label: 'Group size',   value: 'Games for 2 to 10 players'               },
+        ],
+      },
+
+    };
+
+
+    // ─────────────────────────────────────────────────
+    //  DOM REFERENCES
+    // ─────────────────────────────────────────────────
+    const backdrop    = document.getElementById('modalBackdrop');
+    const modalImg    = document.getElementById('modalImg');
+    const modalTag    = document.getElementById('modalTag');
+    const modalTitle  = document.getElementById('modalTitle');
+    const modalDesc   = document.getElementById('modalDesc');
+    const modalChips  = document.getElementById('modalChips');
+    const modalInfo   = document.getElementById('modalInfo');
+    const modalClose  = document.getElementById('modalClose');
+    const modalCtaBtn = document.getElementById('modalCtaBtn');
+
+
+    // ─────────────────────────────────────────────────
+    //  openModal(id)  — called by each card's onclick
+    // ─────────────────────────────────────────────────
+    function openModal(id) {
+      const p = PRODUCTS[id];
+      if (!p) return;
+
+      // Fill in all dynamic fields
+      modalImg.src       = p.img;
+      modalImg.alt       = p.title;
+      modalTag.innerHTML = `<div class="tag ${p.tag.cls}" style="margin-bottom:10px">${p.tag.text}</div>`;
+      modalTitle.textContent = p.title;
+      modalDesc.textContent  = p.desc;
+
+      // Brand / feature chips
+      modalChips.innerHTML = p.chips
+        .map(chip => `<span class="chip">${chip}</span>`)
+        .join('');
+
+      // Info rows  (icon + label + value)
+      modalInfo.innerHTML = p.info
+        .map(row => `
+          <div class="modal-info-row">
+            <span class="modal-info-icon">${row.icon}</span>
+            <span class="modal-info-text">
+              <strong>${row.label}:</strong> ${row.value}
+            </span>
+          </div>
+        `)
+        .join('');
+
+      // Show modal & lock background scroll
+      backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+
+      // Scroll modal to top (in case it was scrolled before)
+      document.getElementById('modalBox').scrollTop = 0;
+    }
+
+
+    // ─────────────────────────────────────────────────
+    //  closeModal()
+    // ─────────────────────────────────────────────────
+    function closeModal() {
+      backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Close via × button
+    modalClose.addEventListener('click', closeModal);
+
+    // Close by clicking the dark backdrop (outside modal box)
+    backdrop.addEventListener('click', function (e) {
+      if (e.target === backdrop) closeModal();
+    });
+
+    // Close via Escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Clicking the in-modal CTA also closes (so the page scrolls to location)
+    modalCtaBtn.addEventListener('click', closeModal);
+
+  </script>
+
+</body>
+</html>
